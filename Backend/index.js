@@ -4,7 +4,7 @@ import dataBaseConnection from "./config/db.js";
 import dotenv from "dotenv"
 dotenv.config()
 const app = express();
-const port = 3000;
+const port = 5000;
 dataBaseConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
