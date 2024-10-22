@@ -1,21 +1,30 @@
 import mangoose from "mongoose";
+
 const UserModelSchema = mangoose.Schema({
     name : {
         type : String,
-        require:true
+        required:true
     },
     email : {
         type : String,
-        require:true
+        required:true,
+        unique: true,
     },
     password : {
         type : String,
-        require:true
+        required:true
     },
     phoneNo : {
         type : Number,
-        require:true
+        required:true
+    },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false,
     }
+}, {
+    timestamps: true,
 })
 
 const User = mangoose.model("User",UserModelSchema)
