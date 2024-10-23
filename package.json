@@ -2,18 +2,22 @@
   "name": "ecommerce",
   "version": "1.0.0",
   "description": "Ecommerce Backend",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon Backend/index.js",
-    "server": "nodemon Backend/index.js",
+    "start": "nodemon Backend/server.js",
+    "server": "nodemon Backend/server.js",
     "client": "npm start --prefix ecommerce",
-    "dev": "concurrently \"npm run server \" \"npm run client\""
+    "dev": "concurrently \"npm run server \" \"npm run client\"",
+    "data:import": "node Backend/seeder.js",
+    "data:destroy": "node Backend/seeder.js -d"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "colors": "^1.4.0",
     "concurrently": "^9.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
