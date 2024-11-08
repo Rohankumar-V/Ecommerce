@@ -7,7 +7,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
   res.json(products);
-});
+}); 
 
 // @desc  Fetch productsByID
 // @route GET /api/products/:id

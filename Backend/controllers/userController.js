@@ -1,6 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
-
+import generateToken from "../utils/generateToken.js";
 const userRegister = asyncHandler(async (req, res) => {
   const { name, email, password, phoneNo } = req.body;
   console.log(req.body);
@@ -9,7 +9,7 @@ const userRegister = asyncHandler(async (req, res) => {
     email,
   });
   if (emailExists) {
-    return res.status(409).json("User already exists");
+    return res.status(400).json("User already exists");
   }
   const user = await User.create({
     name,
@@ -17,7 +17,19 @@ const userRegister = asyncHandler(async (req, res) => {
     password,
     phoneNo,
   });
-  return res.status(200).json(user);
+  if(user){
+    generateToken(res, user._id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phoneNo: user.phoneNo,
+      isAdmin: user.isAdmin,
+    })
+  } else {
+    res.status(400)
+    throw new Error('Invalid user data')
+  }
 });
 const login = asyncHandler(async (req, res) => {
   console.log(req.body);
@@ -26,12 +38,14 @@ const login = asyncHandler(async (req, res) => {
     email,
   });
   console.log(user);
-  if (user && user.password === password) {
+  if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
     return res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       phoneNo: user.phoneNo,
+      isAdmin: user.isAdmin,
     });
   }
   return res.status(401).json("Email/Password does not exists");
@@ -41,7 +55,13 @@ const login = asyncHandler(async (req, res) => {
 // @route POST /api/users/logout
 // @access Private
 const logoutUser = asyncHandler(async (req, res) => {
-  res.send("logout user");
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0)
+  })
+  res.status(200).json({
+    message: 'Logged out successfully'
+  });
 });
 
 // @desc  Get user profile
