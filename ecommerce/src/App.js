@@ -1,5 +1,8 @@
 import { Container } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:2956879495.
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -13,6 +16,7 @@ const App = () => {
         </Container>
       </main>
       <Footer />
+      <ToastContainer />
     </>
   )
 };

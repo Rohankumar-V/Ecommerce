@@ -15,10 +15,6 @@ const UserModelSchema = mangoose.Schema({
         type : String,
         required:true
     },
-    phoneNo : {
-        type : Number,
-        required:true
-    },
     isAdmin: {
         type: Boolean,
         required: true,
